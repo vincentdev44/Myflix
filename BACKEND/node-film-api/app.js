@@ -2,9 +2,10 @@ const express = require('express')
 const morgan = require('morgan')
 const favicon = require('serve-favicon')
 const bodyParser = require('body-parser')
-const { Sequelize } = require('sequelize')
+const { Sequelize, DataTypes } = require('sequelize')
 const { success, getUniqueId } = require('./helper.js')
-let films = require('./mock-film')
+let films = require('./src/db/mock-film')
+const FilmModel = require('./src/models/film')
 
 const app = express()
 const port = 3000
@@ -26,6 +27,24 @@ const sequelize = new Sequelize(
 sequelize.authenticate()
     .then(_ => console.log('La connexion à la base de données a bien été établie.'))
     .catch(error => console.error(`Impossible de se connecter à la base de données ${error}`))
+
+const Film = FilmModel(sequelize, DataTypes)
+
+sequelize.sync({ force: true })
+    .then(_ => {
+        console.log('La base de données "MYFLIX" a bien été synchronisée.')
+
+        films.map(film => {
+            Film.create({
+                name: film.name,
+                description: film.description,
+                picture: film.picture,
+                video: film.video,
+                created: film.created,
+                types: film.types.join()
+            }).then(test => console.log(test.toJSON()))
+        })
+    })
 
 app
     .use(favicon(__dirname + '/favicon.ico'))
@@ -50,7 +69,7 @@ app.post('/api/films', (req, res) => {
     const id = getUniqueId(films)
     const filmCreated = { ...req.body, ...{ id: id } }
     films.push(filmCreated)
-    const message = `Le film ${ filmCreated.name } a bien été crée.`
+    const message = `Le film ${filmCreated.name} a bien été crée.`
     res.json(success(message, filmCreated))
 })
 
@@ -60,7 +79,7 @@ app.put('/api/films/:id', (req, res) => {
     films = films.map(film => {
         return film.id === id ? filmUpdated : film
     })
-    const message = `Le film ${ filmUpdated.name } a bien été modifié.`
+    const message = `Le film ${filmUpdated.name} a bien été modifié.`
     res.json(success(message, filmUpdated))
 })
 
@@ -68,7 +87,7 @@ app.delete('/api/films/:id', (req, res) => {
     const id = parseInt(req.params.id)
     const filmDeleted = films.find(film => film.id === id)
     films = films.filter(film => film.id !== id)
-    const message = `Le film ${ filmDeleted.name } a bien été supprimé.`
+    const message = `Le film ${filmDeleted.name} a bien été supprimé.`
     res.json(success(message, filmDeleted))
 })
 
