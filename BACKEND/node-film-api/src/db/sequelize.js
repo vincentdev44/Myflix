@@ -11,7 +11,7 @@ const sequelize = new Sequelize('MYFLIX', 'root', '', {
     logging: false
 })
 
-const Pokemon = FilmModel(sequelize, DataTypes)
+const Film = FilmModel(sequelize, DataTypes)
 
 const initDb = () => {
     return sequelize.sync({ force: true }).then(_ => {
@@ -22,7 +22,7 @@ const initDb = () => {
                 picture: film.picture,
                 video: film.video,
                 created: film.created,
-                types: film.types.join()
+                types: film.types
             }).then(film => console.log(film.toJSON()))
         })
         console.log('La base de donnée a bien été initialisée !')
