@@ -7,5 +7,9 @@ module.exports = (app) => {
                 const message = 'La liste des films a bien été récupérée.'
                 res.json({ message, data: films })
             })
+            .catch(error => {
+                const message = `La liste des films  n'à pas été récupérée. Réessayez dans quelques instants.`
+                res.status(500).json({ messsage, date: error })
+            })
     })
 }
