@@ -10,7 +10,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: {
                 notEmpty: { msg: 'Le nom du film ne peut être nul.' },
-                notNull: { msg: 'Le nom du film est une propriété requise.' }
+                notNull: { msg: 'Le nom du film est une propriété requise.' },
+                len: {
+                    args: [1,40],
+                    msg: "Le nom doit être compris entre 1 et 40 cractères"
+                }
             }
         },
         description: {
@@ -18,7 +22,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: {
                 notEmpty: { msg: 'La description du film ne peut être nul.' },
-                notNull: { msg: 'Le nom de la description du film est une propriété requise.' }
+                notNull: { msg: 'Le nom de la description du film est une propriété requise.' },
+                len: {
+                    args: [1,1000],
+                    msg: "La description doit être compris entre 1 et 1000 cractères"
+                }
             }
         },
         picture: {
@@ -37,7 +45,15 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: {
                 isInt: { msg: 'Utilisez uniquement des nombres entiers pour la date' },
-                notNull: { msg: 'La date est une propriété requise' }
+                notNull: { msg: 'La date est une propriété requise' },
+                min: {
+                    args: 1900,
+                    msg: "La date doit être supérieur à 1900"
+                },
+                max: {
+                    args: 2500,
+                    msg: "La date ne doit pas dépasser 2500"
+                }
             }
         },
         types: {
