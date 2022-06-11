@@ -49,7 +49,7 @@ const films = [
         name: "South Park",
         description: "Quatre garnements ont reussi a assister a la projection d'un film canadien de Terance et Phillip interdit au moins de dix-huit ans. Tetanises de bonheur et transportes au septieme ciel, Stan, Kyle, Kenny et Cartman n'ont plus qu'une idee: transmettre leur savoir a leurs copines et copains verts d'envie. Bientot les enseignants sont impuissants face a l'anarchie qui s'installe. Alertees, les meres s'unissent pour que leurs rejetons se calment mais par leurs methodes expeditives provoquent la guerre entre le gouvernement canadien et la Maison-Blanche.",
         picture: "./assets/images/southpark.jpg",
-        types: ["Animation", "Comédie", "Musical"],
+        types: ["Animation", "Comédie"],
         created: 1998,
         video: "./assets/videos/netflix-video-devices.webm"
     },

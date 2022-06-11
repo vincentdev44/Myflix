@@ -1,3 +1,6 @@
+const validTypes = ['Drame', 'Romance', 'Action', 'Science Fiction', 'Fantastique', 'Aventure', 'Famille', 'Comédie', 'Animation', 'Thriller', 'Horreur']
+
+
 module.exports = (sequelize, DataTypes) => {
     return sequelize.define('Film', {
         id: {
@@ -8,11 +11,14 @@ module.exports = (sequelize, DataTypes) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: {
+                msg: 'Le nom du film est déja utilisé'
+            },
             validate: {
                 notEmpty: { msg: 'Le nom du film ne peut être nul.' },
                 notNull: { msg: 'Le nom du film est une propriété requise.' },
                 len: {
-                    args: [1,40],
+                    args: [1, 40],
                     msg: "Le nom doit être compris entre 1 et 40 cractères"
                 }
             }
@@ -24,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
                 notEmpty: { msg: 'La description du film ne peut être nul.' },
                 notNull: { msg: 'Le nom de la description du film est une propriété requise.' },
                 len: {
-                    args: [1,1000],
+                    args: [1, 1000],
                     msg: "La description doit être compris entre 1 et 1000 cractères"
                 }
             }
@@ -73,6 +79,11 @@ module.exports = (sequelize, DataTypes) => {
                     if (value.split(',').length > 3) {
                         throw new Error('Un film ne peut avoir plus de trois types.')
                     }
+                    value.split(',').forEach(type => {
+                        if (!validTypes.includes(type)) {
+                            throw new Error(`Le type d'un film doit appartenir à la liste suivante : ${validTypes}`)
+                        }
+                    });
                 }
             }
         }
