@@ -20,6 +20,7 @@ require('./src/routes/findFilmByPk')(app)
 require('./src/routes/createFilm')(app)
 require('./src/routes/updateFilm')(app)
 require('./src/routes/deleteFilm')(app)
+require('./src/routes/login')(app)
 
 // On ajoute la gestion des erreurs 404
 app.use(({ res }) => {

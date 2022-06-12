@@ -1,7 +1,8 @@
 const { Film } = require('../db/sequelize')
+const auth = require('../auth/auth')
 
 module.exports = (app) => {
-    app.delete('/api/films/:id', (req, res) => {
+    app.delete('/api/films/:id', auth, (req, res) => {
         Film.findByPk(req.params.id).then(film => {
             if (film === null) {
                 const message = `Le film demandé n'existe pas. Réessayez avec un autre identifiant`;
